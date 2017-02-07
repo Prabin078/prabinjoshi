@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<time.h>
+
+void mergesort(long a[10000],long i,long j);
+void merge(long a[10000],long i1,long j1,long i2,long j2);
+
+int main()
+{
+long n,i,a[10000];
+clock_t begin,end;
+double total_t;
+printf("enter the no of elements");
+scanf("%ld",&n);
+printf("enter array elements");
+for(i=0;i<n;i++)
+//scanf("%ld\n",&a[i]);
+a[i]=rand(10000);
+begin=clock();
+mergesort(a,0,n-1);
+end=clock();
+printf("sorted list is:");
+for(i=0;i<n;i++)
+printf("%ld\n",a[i]);
+printf("execution time taken is:");
+total_t=((double)(end-begin)/(CLOCKS_PER_SEC));
+printf("%lf\n",total_t);
+return 0;
+}
+
+void mergesort(long a[10000],long i,long j)
+{
+long mid;
+if(i<j)
+{
+ mid=(i+j)/2;
+ mergesort(a,mid,i);
+ mergesort(a,mid+1,i);
+ merge(a,mid,i,mid+1,j);
+}
+}
+
+void merge(long a[10000],long i1,long j1,long i2,long j2)
+{
+ long temp[10000];
+ long i,j,k;
+ i=i1;   
+ j=i2;   
+ k=0;
+ while(i<=j1 && j<=j2) 
+ {
+  if(a[i]<a[j])
+  temp[k++]=a[i++];
+  else
+  temp[k++]=a[j++];
+ }
+ while(i<=j1)   
+ temp[k++]=a[i++];
+ while(j<=j2) 
+ temp[k++]=a[j++];
+ for(i=i1,j=0;i<=j2;i++,j++)
+ a[i]=temp[j];
+}
